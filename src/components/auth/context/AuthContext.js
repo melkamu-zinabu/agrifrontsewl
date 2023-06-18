@@ -13,18 +13,32 @@ export const authReducer = (state, action) => {
   }
 }
 
+// user: {
+//   id: action.payload.id,
+//   name: action.payload.name,
+//   email: action.payload.email
+// }
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, { 
     user: null
   })
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'))
+ useEffect(() => {
+   
 
-    if (user) {
-      dispatch({ type: 'LOGIN', payload: user }) 
+  const storedUser = localStorage.getItem('user');
+  if (storedUser) {
+    try {
+      const user = JSON.parse(storedUser);
+        // update the auth context
+        dispatch({ type: 'LOGIN', payload: user }) 
+      console.log(user);
+    } catch (error) {
+      console.error('Error parsing user from localStorage:', error);
     }
-  }, [])
+  }
+}, []);
+
 
   console.log('AuthContext state:', state)
   

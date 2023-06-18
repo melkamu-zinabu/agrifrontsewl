@@ -3,16 +3,16 @@ import { TextField, Button, Link, Grid, Paper, Typography, Select, MenuItem, Ava
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
-
-import NavBar from './landingPage/NavBar';
-import Footer from './landingPage/Footer';
+import NavBar from '../landingPage/NavBar';
+import Footer from '../landingPage/Footer';
 
 import axios from 'axios';
-import LanguageSelector from './languageselector/Lnguage';
+import LanguageSelector from '../languageselector/Lnguage';
+import { useAuthContext } from './hooks/useAuthContext';
 const theme = createTheme();
 
 const Register = () => {
-
+  const { dispatch } = useAuthContext()
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -40,8 +40,11 @@ const Register = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-
+     
       if (response.status === 201) {
+        // localStorage.setItem('user', JSON.stringify(user))
+        // // update the auth context
+        // dispatch({type: 'LOGIN', payload: user})
         setSuccess(true);
         setError('');
         navigate('/sign-in');

@@ -2,11 +2,12 @@ import React, { useRef, useState, useEffect } from 'react';
 import { TextField, Checkbox, Button, FormControlLabel, Grid, Paper, Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
-import NavBar from './landingPage/NavBar';
-import Footer from './landingPage/Footer';
+import NavBar from '../landingPage/NavBar';
+import Footer from '../landingPage/Footer';
 
 import axios from 'axios';
-import { useAuthContext } from '../hooks/useAuthContext';
+import { useAuthContext } from './hooks/useAuthContext';
+
 // import { useAuthContext } from '..context/useAuthContext'
 const theme = createTheme();
 
@@ -32,29 +33,45 @@ const Login = () => {
       const response = await axios.post('http://localhost:3005/user/login', {
         email,
         password,
-        rememberMe,
+       
       });
-
+      
       if (response.status === 201) {
-        const { token } = response.data;
-        const { data: user } = response.data;
-
+        const { token, user } = response.data;
+       // Check if the "Remember Me" checkbox is selected
+       if (rememberMe) {
         // Save the token in localStorage or cookies for future requests
         localStorage.setItem('token', token);
-        // update the auth context
-        dispatch({type: 'LOGIN', payload: user})
+       }
+       // Save the user to local storage
+  localStorage.setItem('user', JSON.stringify(user));
+
+  // Update the auth context
+  dispatch({ type: 'LOGIN', payload: user });
+         // save the user to local storage
+      //  localStorage.setItem('user', JSON.stringify(user))
+      //   // update the auth context
+      //   dispatch({
+      //     type: 'LOGIN',
+      //     payload: {
+      //       id: user.id,
+      //       name: user.name,
+      //       role: user.role,
+      //       email: user.email
+      //     }
+      //   });
         setSuccess(true);
         setError('');
-        console.log(user)
+        console.log(email)
         // Redirect to the "melkamu" component
-        navigate('/agri-jobs');
+        navigate('/UserProfile');
       }
     } catch (error) {
       setSuccess(false);
       if (error.response) {
         setError(error.response.data.message);
       } else {
-        setError('An error occurred while logging in.');
+        setError('An error occurred while logging in.:');
       }
     }
   };

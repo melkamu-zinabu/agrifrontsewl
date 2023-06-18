@@ -5,15 +5,17 @@ import Layout from './components/authentication/Layout';
 import Job from './components/product/JobManager';
 import Product from './components/product/ProductManager';
 import Index from './components/landingPage/Index';
-import Login from './components/Login';
+import Login from './components/auth/Login';
 import NewsFeed from './components/NewsFeed';
-import Register from './components/Register';
+import Register from './components/auth/Register';
 import RequiredAuth from './components/RequiredAuth';
 import { Routes, Route } from 'react-router-dom';
 import NewsFeedManager from './components/icPage/NewsFeedManager';
-import { useAuthContext } from './hooks/useAuthContext';
-import ResetPassword from './components/forgetpassword/Resetpassword';
-import ResetPasswordPage from './components/forgetpassword/Resetpasswordpage';
+
+import ResetPassword from './components/auth/forgetpassword/Resetpassword';
+import ResetPasswordPage from './components/auth/forgetpassword/Resetpasswordpage';
+import UserProfile from './components/auth/Profile';
+import { useAuthContext } from './components/auth/hooks/useAuthContext';
 
 
 
@@ -28,6 +30,8 @@ function App()
           {/* Public routes */}
            {/* <Home /> : <Navigate to="/login" />
           <Route path='sign-in' element={<Login />} /> */}
+          
+          <Route path='UserProfile' element={<UserProfile />} />
           <Route path='resetpw' element={<ResetPassword />} />
           <Route path='ResetPasswordPage/:token' element={<ResetPasswordPage />} />
           <Route path='sign-in' element={<Login />} />
