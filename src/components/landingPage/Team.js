@@ -5,13 +5,13 @@ const Team = () =>
 {
     const teamMembers = [
         {
-            name: "Sewlesew Biazen",
+            name: "Sewlesew B",
             img: require("../assets/sewlesew.jpg").default,
             text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi ipsam nostrum illo tempora esse quibusdam.",
             socials: ["bi bi-twitter text-dark mx-1", "bi bi-facebook text-dark mx-1", "bi bi-linkedin text-dark mx-1", "bi bi-instagram text-dark mx-1"]
         },
         {
-            name: "Melkamu Zinabu",
+            name: "Melkamu Z",
             img: require("../assets/melkamu.jpg").default,
             text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi ipsam nostrum illo tempora esse quibusdam.",
             socials: ["bi bi-twitter text-dark mx-1", "bi bi-facebook text-dark mx-1", "bi bi-linkedin text-dark mx-1", "bi bi-instagram text-dark mx-1"]
@@ -31,7 +31,8 @@ const Team = () =>
     ];
 
     return (
-        <section className="team section-padding" id="team">
+        // section-padding
+        <section className="team " id="team">
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">

@@ -3,9 +3,10 @@ import NavBar from './NavBar'
 import Carousel from './Carousel'
 import Service from './Service'
 import Team from './Team'
-import Footer from './Footer'
+
 import Contact from './Contact'
 import './style.css'
+import MyFooter from './myfooter'
 
 
 
@@ -17,8 +18,9 @@ const Index = () =>
             <Carousel />
             <Service />
             <Team />
-            <Contact />
-            <Footer />
+            {/* <Contact /> */}
+            <MyFooter />
+            
         </div>
     )
 }

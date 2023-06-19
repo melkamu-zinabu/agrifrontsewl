@@ -4,9 +4,9 @@ import './style.css'
 function Footer()
 {
     return (
-        <footer className="bg-dark p-2 text-center">
+        <footer className="bg-dark text-center p-2  mb-0">
             <div className="container">
-                <p className="text-white">All Right Reserved By @website Name</p>
+                <p className="text-white"> All rights reserved By AISS &copy; {new Date().getFullYear()}.</p>
             </div>
         </footer>
     );

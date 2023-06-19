@@ -24,7 +24,7 @@ const NavBar = () =>
                         <a className="nav-link" href="#team">Team</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#contact">Contact</a>
+                        <a className="nav-link" href="#footer">Contact</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/sign-in">sign in</a>

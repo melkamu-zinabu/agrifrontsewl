@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
-import Layout from './components/authentication/Layout';
+import Layout from './components/layout/Layout';
 import Job from './components/product/JobManager';
 import Product from './components/product/ProductManager';
 import Index from './components/landingPage/Index';
@@ -15,6 +15,7 @@ import NewsFeedManager from './components/icPage/NewsFeedManager';
 import ResetPassword from './components/auserauth/forgetpassword/Resetpassword';
 import ResetPasswordPage from './components/auserauth/forgetpassword/Resetpasswordpage';
 import UserProfile from './components/auserauth/Profile';
+import PhoneNumberForm from './components/admin/Contact';
 
 
 
@@ -30,7 +31,8 @@ function App()
           {/* Public routes */}
            {/* <Home /> : <Navigate to="/login" />
           <Route path='sign-in' element={<Login />} /> */}
-          
+           <Route path='contact' element={<PhoneNumberForm />} />
+
           <Route path='UserProfile' element={<UserProfile />} />
           <Route path='resetpw' element={<ResetPassword />} />
           <Route path='ResetPasswordPage/:token' element={<ResetPasswordPage />} />

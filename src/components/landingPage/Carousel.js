@@ -17,24 +17,26 @@ const Carousel = () =>
                     <img src={woman_phone} className="d-block w-100" alt="..." />
                     <div className="carousel-caption">
                         <h5>ACCESSIBLE</h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime, nulla, tempore. Deserunt excepturi quas vero.</p>
-                        <p><a href="#" className="btn btn-warning mt-3">Learn More</a></p>
+                        <p>We provide features such as alternative text for images, keyboard navigation support, 
+                            and adjustable text size to enhance accessibility.</p>
+                        {/* <p><a href="#" className="btn btn-warning mt-3">Learn More</a></p> */}
                     </div>
                 </div>
                 <div className="carousel-item">
                     <img src={man_haystack} className="d-block w-100" alt="..." />
                     <div className="carousel-caption">
                         <h5>EASY</h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime, nulla, tempore. Deserunt excepturi quas vero.</p>
-                        <p><a href="#" className="btn btn-warning mt-3">Learn More</a></p>
+                        <p>The interface is intuitive, allowing users to easily navigate through 
+                            various features and access the information they need. </p>
+                        {/* <p><a href="#" className="btn btn-warning mt-3">Learn More</a></p> */}
                     </div>
                 </div>
                 <div className="carousel-item">
                     <img src={woman_wood} className="d-block w-100" alt="..." />
-                    <div className="carousel-caption">
+                    <div className="carousel-caption ">
                         <h5>CREDIBLE</h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime, nulla, tempore. Deserunt excepturi quas vero.</p>
-                        <p><a href="#" className="btn btn-warning mt-3">Learn More</a></p>
+                        <p> We ensure that the data and insights presented in our app are up-to-date, verified, and backed by credible sources..</p>
+                        {/* <p><a href="#" className="btn btn-warning mt-3">Learn More</a></p> */}
                     </div>
                 </div>
             </div>

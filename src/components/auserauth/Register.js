@@ -4,10 +4,10 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import NavBar from '../landingPage/NavBar';
-import Footer from '../landingPage/Footer';
+import Footer from '../landingPage/copyright';
 
 import axios from 'axios';
-import LanguageSelector from '../languageselector/Lnguage';
+
 
 const theme = createTheme();
 

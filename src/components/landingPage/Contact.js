@@ -1,9 +1,9 @@
 import React from 'react';
 import './style.css';
-
+// section-padding
 function Contact() {
   return (
-    <section id="contact" className="contact section-padding">
+    <section id="contact" className="contact ">
       <div className="container mt-5 mb-5">
         <div className="row">
           <div className="col-md-12">

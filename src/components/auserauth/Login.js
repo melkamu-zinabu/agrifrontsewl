@@ -3,7 +3,7 @@ import { TextField, Checkbox, Button, FormControlLabel, Grid, Paper, Typography 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link, useNavigate } from 'react-router-dom';
 import NavBar from '../landingPage/NavBar';
-import Footer from '../landingPage/Footer';
+import Footer from '../landingPage/copyright';
 
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -17,6 +17,7 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const userRef = useRef();
 
@@ -30,6 +31,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
+      setLoading(true);
+
       const response = await axios.post('http://localhost:3005/user/login', {
         email,
         password,
@@ -37,26 +40,26 @@ const Login = () => {
 
       if (response.status === 201) {
         const userData = response.data;
-        
-        // Dispatch login action to update the user state
+
         dispatch(login(userData));
         setError('');
-        //if rememberme ticked store token
-        
-        // Save user data to local storage if needed
         localStorage.setItem('user', JSON.stringify(userData));
         setSuccess(true);
-        
-        // Redirect to the "UserProfile" component
-        navigate('/UserProfile');
+        setPassword('')
+        setEmail('')
+        setRememberMe('')
+        setTimeout(() => {
+          navigate('/UserProfile');
+        }, 1500);
       } else {
-        // Handle other response statuses
         const errorData = response.data;
         setError(errorData.message);
       }
     } catch (error) {
       console.error('Error:', error);
       setError('An error occurred during login.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,14 +103,25 @@ const Login = () => {
                 }
                 label="Remember Me"
               />
-              <Button type="submit" variant="contained" color="primary" fullWidth>
-                Login
+              <Button type="submit" variant="contained" color="primary" fullWidth disabled={loading}>
+                {loading ? 'Loading...' : 'Login'}
               </Button>
             </form>
-            <Link to="#" onClick variant="body2" align="center" style={{ marginRight: '2rem', textDecoration: 'none' }}>
+            <Link
+              to="#"
+              onClick
+              variant="body2"
+              align="center"
+              style={{ marginRight: '2rem', textDecoration: 'none' }}
+            >
               Forgot Password?
             </Link>
-            <Link to="/sign-up" variant="body2" align="center" style={{ marginLeft: '0.1rem', textDecoration: 'none' }}>
+            <Link
+              to="/sign-up"
+              variant="body2"
+              align="center"
+              style={{ marginLeft: '0.1rem', textDecoration: 'none' }}
+            >
               No Account? Register
             </Link>
           </Paper>
