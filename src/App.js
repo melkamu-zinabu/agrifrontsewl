@@ -5,23 +5,23 @@ import Layout from './components/authentication/Layout';
 import Job from './components/product/JobManager';
 import Product from './components/product/ProductManager';
 import Index from './components/landingPage/Index';
-import Login from './components/auth/Login';
+import Login from './components/auserauth/Login';
 import NewsFeed from './components/NewsFeed';
-import Register from './components/auth/Register';
+import Register from './components/auserauth/Register';
 import RequiredAuth from './components/RequiredAuth';
 import { Routes, Route } from 'react-router-dom';
 import NewsFeedManager from './components/icPage/NewsFeedManager';
 
-import ResetPassword from './components/auth/forgetpassword/Resetpassword';
-import ResetPasswordPage from './components/auth/forgetpassword/Resetpasswordpage';
-import UserProfile from './components/auth/Profile';
-import { useAuthContext } from './components/auth/hooks/useAuthContext';
+import ResetPassword from './components/auserauth/forgetpassword/Resetpassword';
+import ResetPasswordPage from './components/auserauth/forgetpassword/Resetpasswordpage';
+import UserProfile from './components/auserauth/Profile';
+
 
 
 
 function App()
 {
-  const { user } = useAuthContext()
+ 
   return (
     <div className="App" >
       <ToastContainer theme='colored' position='top-center'></ToastContainer>

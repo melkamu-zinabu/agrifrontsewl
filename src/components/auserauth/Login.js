@@ -6,9 +6,9 @@ import NavBar from '../landingPage/NavBar';
 import Footer from '../landingPage/Footer';
 
 import axios from 'axios';
-import { useAuthContext } from './hooks/useAuthContext';
+import { useDispatch } from 'react-redux';
+import { login } from './store';
 
-// import { useAuthContext } from '..context/useAuthContext'
 const theme = createTheme();
 
 const Login = () => {
@@ -17,7 +17,7 @@ const Login = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  const { dispatch } = useAuthContext()
+  const dispatch = useDispatch();
   const userRef = useRef();
 
   useEffect(() => {
@@ -33,46 +33,30 @@ const Login = () => {
       const response = await axios.post('http://localhost:3005/user/login', {
         email,
         password,
-       
       });
-      
-      if (response.status === 201) {
-        const { token, user } = response.data;
-       // Check if the "Remember Me" checkbox is selected
-       if (rememberMe) {
-        // Save the token in localStorage or cookies for future requests
-        localStorage.setItem('token', token);
-       }
-       // Save the user to local storage
-  localStorage.setItem('user', JSON.stringify(user));
 
-  // Update the auth context
-  dispatch({ type: 'LOGIN', payload: user });
-         // save the user to local storage
-      //  localStorage.setItem('user', JSON.stringify(user))
-      //   // update the auth context
-      //   dispatch({
-      //     type: 'LOGIN',
-      //     payload: {
-      //       id: user.id,
-      //       name: user.name,
-      //       role: user.role,
-      //       email: user.email
-      //     }
-      //   });
-        setSuccess(true);
+      if (response.status === 201) {
+        const userData = response.data;
+        
+        // Dispatch login action to update the user state
+        dispatch(login(userData));
         setError('');
-        console.log(email)
-        // Redirect to the "melkamu" component
+        //if rememberme ticked store token
+        
+        // Save user data to local storage if needed
+        localStorage.setItem('user', JSON.stringify(userData));
+        setSuccess(true);
+        
+        // Redirect to the "UserProfile" component
         navigate('/UserProfile');
+      } else {
+        // Handle other response statuses
+        const errorData = response.data;
+        setError(errorData.message);
       }
     } catch (error) {
-      setSuccess(false);
-      if (error.response) {
-        setError(error.response.data.message);
-      } else {
-        setError('An error occurred while logging in.:');
-      }
+      console.error('Error:', error);
+      setError('An error occurred during login.');
     }
   };
 

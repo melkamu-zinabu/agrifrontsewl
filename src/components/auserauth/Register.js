@@ -8,11 +8,11 @@ import Footer from '../landingPage/Footer';
 
 import axios from 'axios';
 import LanguageSelector from '../languageselector/Lnguage';
-import { useAuthContext } from './hooks/useAuthContext';
+
 const theme = createTheme();
 
 const Register = () => {
-  const { dispatch } = useAuthContext()
+ 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
