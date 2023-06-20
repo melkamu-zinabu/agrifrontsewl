@@ -7,6 +7,7 @@ import Footer from '../landingPage/copyright';
 function ManageFarmers() {
   const [searchTerm, setSearchTerm] = useState('');
   const [profileData, setProfileData] = useState([]);
+  const [profileImage, setProfileImage] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -17,9 +18,13 @@ function ManageFarmers() {
   const fetchData = async (page) => {
     try {
       const response = await axios.get(`http://localhost:3005/user/getallusers?page=${page}&limit=10`);
-      const { profileData, count } = response.data;
-      setProfileData(profileData);
+      const { data, count } = response.data;
+      setProfileData(data);
       setTotalPages(Math.ceil(count / 10));
+      if (data.length > 0 && data[0].image) {
+        const imageUrl = `data:${data[0].image.contentType};base64,${data[0].image.data}`;
+        setProfileImage(imageUrl);
+      }
     } catch (error) {
       console.error('Error:', error);
     }

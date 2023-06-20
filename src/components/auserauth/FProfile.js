@@ -1,77 +1,154 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { logout } from './store';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import AdminNavBar from './adminNavBar';
+import Footer from '../landingPage/copyright';
 
-const UserProfile = () => {
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const [profileData, setProfileData] = useState(null);
+function ManageFarmers() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [profileData, setProfileData] = useState([]);
   const [profileImage, setProfileImage] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3005/user/getuserbyid/${user._id}`);
+    fetchData(currentPage);
+  }, [currentPage]);
 
-        const { name, email ,image} = response.data;
-        setProfileData({ name, email }); // Update the component state with the profile data
-        if (image){
-          console.log('ggggggggggggggggggg')
-          
-          const imageUrl = `data:${image.contentType};base64,${image.data}`;
-          
-          setProfileImage(imageUrl); // Set the Base64 encoded image URL to the state
-        }
-        console.log('User Profile:', { name, email });
-        // Do something with the profile data
-      } catch (error) {
-        console.error('Error:', error);
+  const fetchData = async (page) => {
+    try {
+      const response = await axios.get(`http://localhost:3005/user/getallusers?page=${page}&limit=10`);
+      const { data, count } = response.data;
+      setProfileData(data);
+      setTotalPages(Math.ceil(count / 10));
+      if (data.length > 0 && data[0].image) {
+        const imageUrl = `data:${data[0].image.contentType};base64,${data[0].image.data}`;
+        setProfileImage(imageUrl);
       }
-    };
-
-    if (user && user._id) {
-      fetchUserProfile();
+    } catch (error) {
+      console.error('Error:', error);
     }
-  }, [user]);
-
-  const handleLogout = () => {
-    dispatch(logout());
-    localStorage.removeItem('user');
   };
 
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:3005/user/removeuser/${id}`)
+      .then((response) => {
+        setProfileData(profileData.filter((farmer) => farmer._id !== id));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleSearchTermChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const filteredFarmers = profileData.filter((farmer) => {
+    const name = farmer.name;
+    return name.toLowerCase().includes(searchTerm.toLowerCase());
+  });
+
+  const tableStyle = { borderCollapse: 'collapse', width: '80%', marginLeft: '10%' };
+  const thStyle = {
+    border: 'none',
+    backgroundColor: 'whitesmoke',
+    color: 'black',
+    padding: '1rem',
+    textAlign: 'center',
+    whiteSpace: 'nowrap', // Prevent table header from wrapping
+  };
+  const tdStyle = { border: 'none', padding: '0.5rem' };
+
   return (
-    <div>
-      <h2>User Profile</h2>
-      {user && (
-        <>
-          <p>Name: {user.name}</p>
-          <p>Email: {user.email}</p>
-          {profileData && (
-            <>
-              <p>Profile Data:</p>
-              <p>Name: {profileData.name}</p>
-              <p>Email: {profileData.email}</p>
-              {/* Render additional components 
-              or data based on the profile data */}
-           
-            </>
-            
-          )}
-           {(
-            <img src={profileImage} alt="Profile Image" width="25%" height="25%"/>
-          )}
-          <button onClick={handleLogout}>Logout</button>
-        </>
-      )}
-    </div>
+    <>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <AdminNavBar />
+        <br />
+        <br />
+        <div style={{ padding: '40px', marginBottom: 'auto' }}>
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ marginRight: '10px' }}>Search by name:</label>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={handleSearchTermChange}
+              style={{ borderRadius: '5px', padding: '5px' }}
+            />
+          </div>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={tableStyle}>
+              <thead>
+                <tr>
+                  <th style={thStyle}>Name</th>
+                  <th style={thStyle}>Email</th>
+                  <th style={thStyle}>Profile Image</th>
+                  <th style={thStyle}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredFarmers.map((farmer) => (
+                  <tr key={farmer._id} style={{ borderBottom: '1px solid #ccc' }}>
+                    <td style={tdStyle}>{farmer.name}</td>
+                    <td style={tdStyle}>{farmer.email}</td>
+                    <td style={tdStyle}>
+                      {farmer.image && (
+                        <img
+                          src={`data:${farmer.image.contentType};base64,${farmer.image.data}`}
+                          alt="Profile"
+                          width="38px"
+                          height="38px"
+                          style={{ padding: 0 }}
+                        />
+                      )}
+                    </td>
+                    <td style={tdStyle}>
+                      <button
+                        onClick={() => handleDelete(farmer._id)}
+                        style={{
+                          backgroundColor: '#dc3545',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: '5px',
+                          padding: '5px 10px',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <button disabled={currentPage === 1} onClick={handlePreviousPage} style={{ marginRight: '10px' }}>
+              <FaArrowLeft />
+            </button>
+            <span>{`Page ${currentPage} of ${totalPages}`}</span>
+            <button disabled={currentPage === totalPages} onClick={handleNextPage} style={{ marginLeft: '10px' }}>
+              <FaArrowRight />
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    </>
   );
-};
+}
 
-export default UserProfile;
-
-
-
-
-// const base64Image = Buffer.from(image.data, 'binary').toString('base64');
-// const imageUrl = `data:${image.contentType};base64,${base64Image}`;
+export default ManageFarmers;
