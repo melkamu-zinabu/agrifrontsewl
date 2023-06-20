@@ -14,10 +14,13 @@ import NewsFeedManager from './components/icPage/NewsFeedManager';
 
 import ResetPassword from './components/auserauth/forgetpassword/XResetpasswordSwithemaoil';
 import ResetPasswordPage from './components/auserauth/forgetpassword/XResetpasswordpage';
-import UserProfile from './components/auserauth/Profile';
+import UserProfile from './components/auserauth/UpdateProfile';
 import PhoneNumberForm from './components/badmin/Contact';
 import SubmitEmail from './components/auserauth/forgetpassword/ResetPasswordWithEmail';
 import ChangePasswordForm from './components/auserauth/forgetpassword/Resetpassword';
+import NavBar from './components/NavBar';
+import AdminNavBar from './components/admin/adminNavBar';
+import ManageFarmers from './components/admin/ManageFarmer';
 
 
 
@@ -38,11 +41,14 @@ function App()
            {/* <Home /> : <Navigate to="/login" />
           <Route path='sign-in' element={<Login />} /> */}
            
+           <Route path='adminNavBar' element={<AdminNavBar />} />
+          <Route path='updateprofile' element={<UserProfile />} />
+          <Route path='ManageFarmers' element={<ManageFarmers />} />
 
-          <Route path='UserProfile' element={<UserProfile />} />
           <Route path='resetpw' element={<ResetPassword />} />
           <Route path='ResetPasswordPage/:token' element={<ChangePasswordForm />} />
-         
+          <Route path='news-feed' element={<NewsFeed />} />
+            <Route path='agri-pros' element={<Product />} />
          
           <Route path='/' element={<Index />} />
           <Route path='agri-jobs' element={<Job />} />

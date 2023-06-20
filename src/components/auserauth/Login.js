@@ -53,7 +53,7 @@ const Login = () => {
         setEmail('')
         setRememberMe('')
         setTimeout(() => {
-          navigate('/UserProfile');
+          navigate('/agri-jobs');
         }, 1500);
       } else {
         const errorData = response.data;
