@@ -15,15 +15,12 @@ const UserProfile = () => {
         const response = await axios.get(`http://localhost:3005/user/getuserbyid/${user._id}`);
 
         const { name, email ,image} = response.data;
-       
-
         setProfileData({ name, email }); // Update the component state with the profile data
-        if (image) {
+        if (image){
           console.log('ggggggggggggggggggg')
           
           const imageUrl = `data:${image.contentType};base64,${image.data}`;
           
-
           setProfileImage(imageUrl); // Set the Base64 encoded image URL to the state
         }
         console.log('User Profile:', { name, email });
@@ -62,7 +59,7 @@ const UserProfile = () => {
             
           )}
            {(
-            <img src={profileImage} alt="Profile Image" />
+            <img src={profileImage} alt="Profile Image" width="25%" height="25%"/>
           )}
           <button onClick={handleLogout}>Logout</button>
         </>

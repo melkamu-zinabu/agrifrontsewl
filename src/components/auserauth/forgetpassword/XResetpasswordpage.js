@@ -8,7 +8,7 @@ const ResetPasswordPage = () => {
   const [newPassword, setNewPassword] = useState('');
   const [resetStatus, setResetStatus] = useState(null);
   const navigate=useNavigate()
-
+  
 
 
   const handlePasswordChange = (e) => {
@@ -28,6 +28,7 @@ const ResetPasswordPage = () => {
             'Content-Type': 'application/json'
           }
         });
+        
 
     setResetStatus(response.data.message);
     } catch (error) {

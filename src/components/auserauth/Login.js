@@ -22,7 +22,11 @@ const Login = () => {
   const userRef = useRef();
 
   useEffect(() => {
-    userRef.current.focus();
+    
+    setEmail('');
+    setPassword('');
+   
+   
   }, []);
 
   const navigate = useNavigate();
@@ -108,8 +112,8 @@ const Login = () => {
               </Button>
             </form>
             <Link
-              to="#"
-              onClick
+              to="/SubmitEmail"
+            
               variant="body2"
               align="center"
               style={{ marginRight: '2rem', textDecoration: 'none' }}

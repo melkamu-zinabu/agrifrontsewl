@@ -12,10 +12,12 @@ import RequiredAuth from './components/RequiredAuth';
 import { Routes, Route } from 'react-router-dom';
 import NewsFeedManager from './components/icPage/NewsFeedManager';
 
-import ResetPassword from './components/auserauth/forgetpassword/Resetpassword';
-import ResetPasswordPage from './components/auserauth/forgetpassword/Resetpasswordpage';
+import ResetPassword from './components/auserauth/forgetpassword/XResetpasswordSwithemaoil';
+import ResetPasswordPage from './components/auserauth/forgetpassword/XResetpasswordpage';
 import UserProfile from './components/auserauth/Profile';
-import PhoneNumberForm from './components/admin/Contact';
+import PhoneNumberForm from './components/badmin/Contact';
+import SubmitEmail from './components/auserauth/forgetpassword/ResetPasswordWithEmail';
+import ChangePasswordForm from './components/auserauth/forgetpassword/Resetpassword';
 
 
 
@@ -28,16 +30,20 @@ function App()
       <ToastContainer theme='colored' position='top-center'></ToastContainer>
       <Routes>
         <Route path="/" element={<Layout />}>
+        <Route path='sign-up' element={<Register />} />
+        <Route path='sign-in' element={<Login />} />
+        <Route path='/SubmitEmail' element={<SubmitEmail />} />
+        <Route path='ResetPasswordPage/:token' element={<ChangePasswordForm />} />
           {/* Public routes */}
            {/* <Home /> : <Navigate to="/login" />
           <Route path='sign-in' element={<Login />} /> */}
-           <Route path='contact' element={<PhoneNumberForm />} />
+           
 
           <Route path='UserProfile' element={<UserProfile />} />
           <Route path='resetpw' element={<ResetPassword />} />
-          <Route path='ResetPasswordPage/:token' element={<ResetPasswordPage />} />
-          <Route path='sign-in' element={<Login />} />
-          <Route path='sign-up' element={<Register />} />
+          <Route path='ResetPasswordPage/:token' element={<ChangePasswordForm />} />
+         
+         
           <Route path='/' element={<Index />} />
           <Route path='agri-jobs' element={<Job />} />
           {/* SendResetEmail */}

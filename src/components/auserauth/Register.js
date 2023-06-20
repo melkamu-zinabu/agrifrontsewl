@@ -1,5 +1,16 @@
-import React, { useState } from 'react';
-import { TextField, Button, Link, Grid, Paper, Typography, Select, MenuItem, Avatar } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  TextField,
+  Button,
+  Link,
+  Grid,
+  Paper,
+  Typography,
+  Select,
+  MenuItem,
+  Avatar,
+  CircularProgress,
+} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
@@ -8,11 +19,9 @@ import Footer from '../landingPage/copyright';
 
 import axios from 'axios';
 
-
 const theme = createTheme();
 
 const Register = () => {
- 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,11 +30,22 @@ const Register = () => {
   const [image, setImage] = useState(null); // New state for file upload
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  useEffect(() => {
+    setName('');
+    setEmail('');
+    setPassword('');
+    setConfirmPassword('');
+    setRole('');
+    setImage(null);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Set loading state to true
+
     try {
       const formData = new FormData();
       formData.append('name', name);
@@ -35,22 +55,30 @@ const Register = () => {
       formData.append('role', role);
       formData.append('image', image); // Include file in form data
 
-      const response = await axios.post('/user/register', formData, {
+      const response = await axios.post('http://localhost:3005/user/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-     
+
       if (response.status === 201) {
-        // localStorage.setItem('user', JSON.stringify(user))
-        // // update the auth context
-        // dispatch({type: 'LOGIN', payload: user})
         setSuccess(true);
         setError('');
-        navigate('/sign-in');
+        setName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        setRole('');
+        setImage(null);
+
+        setTimeout(() => {
+          setLoading(false); // Set loading state to false after a delay
+          navigate('/sign-in');
+        }, 1500);
       }
     } catch (error) {
       setSuccess(false);
+      setLoading(false); // Set loading state to false
       if (error.response) {
         setError(error.response.data.message);
       } else {
@@ -59,11 +87,10 @@ const Register = () => {
     }
   };
 
- 
   return (
     <div>
       <NavBar />
-      
+
       <ThemeProvider theme={theme}>
         <Grid container justifyContent="center">
           <Grid item xs={12} sm={8} md={8}>
@@ -74,7 +101,7 @@ const Register = () => {
               <form onSubmit={handleSubmit}>
                 {success && <p>User registered successfully.</p>}
                 {error && <p>{error}</p>}
-                
+
                 <TextField
                   type="email"
                   label="Email"
@@ -92,21 +119,21 @@ const Register = () => {
                   margin="normal"
                   required
                 />
+
                 <Select
                   labelId="select-label"
                   id="select-input"
+                  label="Select Role"
                   fullWidth
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
-                  label="Select_Role"
                   required
+                  defaultValue=""
                 >
-                  <MenuItem default value="option1">
-                    Select Role
-                  </MenuItem>
-                  <MenuItem value="option1">Option 1</MenuItem>
-                  <MenuItem value="option2">Option 2</MenuItem>
-                  <MenuItem value="option3">Option 3</MenuItem>
+                  <MenuItem value="">Select Role</MenuItem>
+                  <MenuItem value="Farmer">Farmer</MenuItem>
+                  <MenuItem value="Labour Worker">Labour Worker</MenuItem>
+                  <MenuItem value="Buyer">Buyer</MenuItem>
                 </Select>
 
                 <TextField
@@ -144,15 +171,23 @@ const Register = () => {
                     Selected image: {image.name}
                   </Typography>
                 )}
-                <Button type="submit" variant="contained" color="primary" fullWidth>
-                  Register
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <CircularProgress size={24} color="inherit" />
+                  ) : (
+                    'Register'
+                  )}
                 </Button>
               </form>
               <Typography variant="body2" align="center" marginTop="10px">
                 Already Registered?{' '}
-                <Link href="/sign-in">
-                  Login
-                </Link>
+                <Link href="/sign-in">Login</Link>
               </Typography>
             </Paper>
           </Grid>
