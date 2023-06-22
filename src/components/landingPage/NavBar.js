@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './style.css';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -33,19 +34,18 @@ const NavBar = () => {
             <li className="nav-item">
               <a className="nav-link" href="#footer">Contact</a>
             </li>
-          
-           
-            {user.role ? (
-        <>
+             {user?.role ? (
+            // Render the sign-in link
             <li className="nav-item">
-              <a className="nav-link" href="/sign-in">sign in</a>
+              <Link to="/sign-in" className="nav-link">Sign In</Link>
             </li>
-        </>
-      ) : (
-        <li className="nav-item">
-        <a className="nav-link" href="/sign-up">sign-up</a>
-      </li>
-      )} 
+          ) : (
+            // Render the sign-up link
+            <li className="nav-item">
+              <Link to="/sign-up" className="nav-link">Sign Up</Link>
+            </li>
+          )}
+
           </ul>
         </div>
       </div>

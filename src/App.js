@@ -7,7 +7,7 @@ import Login from './components/auserauth/Login';
 import NewsFeed from './components/farmer/FNewsFeed';
 import Register from './components/auserauth/Register';
 import RequiredAuth from './components/RequiredAuth';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import NewsFeedManager from './components/icPage/NewsFeedManager';
 
 import ResetPassword from './components/auserauth/forgetpassword/XResetpasswordSwithemaoil';
@@ -30,13 +30,15 @@ import Job from './components/farmer/product/JobManager';
 import FNewsFeed from './components/farmer/FNewsFeed';
 import Buyerproduct from './components/buyer/Buyerproduct';
 import ImageWithOverlay from './components/farmer/FarmerCarousel';
+import { useSelector } from 'react-redux';
 
 
 
 
 
 function App()
-{
+{ const user = useSelector((state) => state.user);
+const navigate=useNavigate()
  
   return (
     <div className="App" >
@@ -46,45 +48,51 @@ function App()
         <Route path="/" element={<Layout />}>
           {/* authentication */}
 
-        <Route path='sign-up' element={<Register />} />
-        <Route path='sign-in' element={<Login />} />
-        <Route path='/SubmitEmail' element={<SubmitEmail />} />
-        <Route path='ResetPasswordPage/:token' element={<ChangePasswordForm />} />
-        
-         <Route path='adminNavBar' element={<AdminNavBar />} />
-          <Route path='updateprofile' element={<UserProfile />} />
-          {/* //admin */}
-          <Route path='ManageFarmers' element={<ManageFarmers />} />
-          <Route path='ManageDAWorker' element={<ManageDAWorker />} />
-          <Route path='ManageICWorker' element={<ManageICWorker />} />
-          <Route path='Dashboard' element={<Dashboard />} />
-          <Route path='IcNavBar' element={<IcNavBar />} />
+              <Route path='sign-up' element={<Register />} />
+              <Route path='sign-in' element={<Login />} />
+              <Route path='/SubmitEmail' element={<SubmitEmail />} />
+              <Route path='ResetPasswordPage/:token' element={<ChangePasswordForm />} />
+              
+              <Route path='adminNavBar' element={<AdminNavBar />} />
+                <Route path='updateprofile' element={<UserProfile />} />
+                {/* //admin */}
+                {/* Conditionally render routes based on user.role */}
           
+                {user && user.role === 'Admin' ? (
+              <>
+                <Route path='ManageFarmers' element={<ManageFarmers />} />
+                <Route path='ManageDAWorker' element={<ManageDAWorker />} />
+                <Route path='ManageICWorker' element={<ManageICWorker />} />
+                <Route path='Dashboard' element={<Dashboard />} />
+              </>
+            ) : user && user.role === 'farmer' ? (
+              <>
+                <Route path='Home' element={<Home />} />
+                <Route path='farmer/agri-pros' element={<Product />} />
+                <Route path='farmer/agri-jobs' element={<Job />} />
+                <Route path='/farmer/news-feed' element={<FNewsFeed />} />
+              </>
+            ) : (
+              <>
+                <Route path='sign-up' element={<Register />} />
+                <Route path='sign-in' element={<Login />} />
+              </>
+)}
 
+
+
+
+        
+          <Route path='IcNavBar' element={<IcNavBar />} /> 
+{/* //ic */}
           <Route path='Newsfeed' element={<Newsfeed />} />
-          {/* <Route path='tech' element={<Newsfeed catagory={Technology} />} />
-          <Route path='policy' element={<Newsfeed catagory={Policy} />} />
-          <Route path='weather' element={<Newsfeed catagory={Weather} />} />
-          <Route path='market' element={<Newsfeed catagory={Market} />} />
-           */}
-
-          <Route path='Home' element={<Home />} />
-          <Route path='farmer/agri-pros' element={<Product/>} />
-          <Route path='farmer/agri-jobs' element={<Job/>} />
-          <Route path='/farmer/news-feed' element={<FNewsFeed/>} />
+        
+         
 
           <Route path='Buyerproduct' element={<Buyerproduct/>} />
           
 
-          
-          
          
-
-
-
-
-          
-          
           
           <Route path='ImageWithOverlay' element={<ImageWithOverlay />} />
           <Route path='resetpw' element={<ResetPassword />} />
