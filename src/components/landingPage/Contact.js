@@ -8,7 +8,7 @@ function Contact() {
         <div className="row">
           <div className="col-md-12">
             <div className="section-header text-center pb-5">
-              <h2>Contact Us</h2>
+              <h2>Contact</h2>
               <p>Lorem ipsum dolor sit amet, consectetur <br />adipisicing elit. Non, quo.</p>
             </div>
           </div>

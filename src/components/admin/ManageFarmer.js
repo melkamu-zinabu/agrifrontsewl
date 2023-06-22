@@ -10,14 +10,15 @@ function ManageFarmers() {
   const [profileImage, setProfileImage] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-
+  const role='Farmer';
   useEffect(() => {
     fetchData(currentPage);
   }, [currentPage]);
 
   const fetchData = async (page) => {
     try {
-      const response = await axios.get(`http://localhost:3005/user/getallusers?page=${page}&limit=10`);
+      const response = await axios.get(`http://localhost:3005/user/getallusers?page=${page}&limit=10&role=${role}`);
+
       const { data, count } = response.data;
       setProfileData(data);
       setTotalPages(Math.ceil(count / 10));

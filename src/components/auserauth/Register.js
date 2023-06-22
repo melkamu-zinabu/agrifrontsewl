@@ -16,9 +16,9 @@ import { useNavigate } from 'react-router-dom';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
 import NavBar from '../landingPage/NavBar';
 import Footer from '../landingPage/copyright';
-
 import axios from 'axios';
-
+import { login } from './store';
+import { useDispatch, useSelector } from 'react-redux';
 const theme = createTheme();
 
 const Register = () => {
@@ -31,7 +31,7 @@ const Register = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     setName('');
@@ -62,6 +62,7 @@ const Register = () => {
       });
 
       if (response.status === 201) {
+        const userData = response.data;
         setSuccess(true);
         setError('');
         setName('');
@@ -70,6 +71,9 @@ const Register = () => {
         setConfirmPassword('');
         setRole('');
         setImage(null);
+         dispatch(login(userData));
+       
+        sessionStorage.setItem('user', JSON.stringify(userData));
 
         setTimeout(() => {
           setLoading(false); // Set loading state to false after a delay
@@ -132,6 +136,8 @@ const Register = () => {
                 >
                   <MenuItem value="">Select Role</MenuItem>
                   <MenuItem value="Farmer">Farmer</MenuItem>
+                 
+                
                   <MenuItem value="Labour Worker">Labour Worker</MenuItem>
                   <MenuItem value="Buyer">Buyer</MenuItem>
                 </Select>

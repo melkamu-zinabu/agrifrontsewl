@@ -6,7 +6,7 @@ import { logout } from '../auserauth/store';
 import axios from 'axios';
 import { useState } from 'react';
 
-const AdminNavBar = () => {
+const LaborWorkerNavBar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -19,10 +19,10 @@ const AdminNavBar = () => {
         const { name, email, image } = response.data;
 
         if (image) {
-          console.log('ggggggggggggggggggg');
           const imageUrl = `data:${image.contentType};base64,${image.data}`;
           setProfileImage(imageUrl); // Set the Base64 encoded image URL to the state
         }
+
         console.log('User Profile:', { name, email });
         // Do something with the profile data
       } catch (error) {
@@ -50,27 +50,35 @@ const AdminNavBar = () => {
       <div className="container">
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto" >
-            <Nav.Link as={Link} to="/Dashboard" className="nav-link">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/buyer" className="nav-link">
               <h6>AISS</h6>
             </Nav.Link>
 
-            <div style={{marginLeft:'3rem' ,display:'flex'}}>
-            <Nav.Link as={Link} to="/Dashboard" className="nav-link">
-              <h6>Home</h6>
-            </Nav.Link>
-           
-            <NavDropdown title="Management Accounts" id="navbarDropdown">
-              <NavDropdown.Item as={Link} to="/ManageDAWorker">
-                DA-WORKER
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/ManageFarmers">
-                Farmer
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/ManageICWorker">
-                IC
-              </NavDropdown.Item>
-            </NavDropdown>
+            <div style={{ marginLeft: '3rem', display: 'flex' }}>
+              <Nav.Link as={Link} to="/buyer" className="nav-link">
+                <h6>Home</h6>
+              </Nav.Link>
+              <Nav.Link as={Link} to="/agri-jobs" className="nav-link">
+                Available-Agri-jobs
+              </Nav.Link>
+              <NavDropdown title="Newsfeeds" id="navbarDropdown">
+                <NavDropdown.Item as={Link} to="/crop">
+                  Crop Information
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/tech">
+                  Agri-technology
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/policy">
+                  Gov't policy
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/weather">
+                  Seasonal weather information
+                </NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/market">
+                  Market information
+                </NavDropdown.Item>
+              </NavDropdown>
             </div>
           </Nav>
           <Nav>
@@ -97,4 +105,4 @@ const AdminNavBar = () => {
   );
 };
 
-export default AdminNavBar;
+export default LaborWorkerNavBar;

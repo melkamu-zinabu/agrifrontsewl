@@ -9,10 +9,10 @@ import Footer from './copyright'
 const MyFooter = () => {
   return (
     <div className=" mt-5">
-      <footer className="text-center text-lg-start" style={{ backgroundColor: "white", color: "black" }}>
+      <footer className="text-center text-lg-start " style={{ backgroundColor: "white", color: "black" }}>
         <section className="d-flex justify-content-between p-4  margin:auto " id="footer"style={{ backgroundColor: "" }}>
           <div className=" ">
-            <h2>Contact Us</h2>
+            <h2>Contact</h2>
           </div>
           <div>
             <a href="" className="text-purple me-4">

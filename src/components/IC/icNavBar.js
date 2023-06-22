@@ -6,7 +6,7 @@ import { logout } from '../auserauth/store';
 import axios from 'axios';
 import { useState } from 'react';
 
-const AdminNavBar = () => {
+const IcNavBar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -51,26 +51,43 @@ const AdminNavBar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto" >
-            <Nav.Link as={Link} to="/Dashboard" className="nav-link">
+            <Nav.Link as={Link} to="/buyer" className="nav-link">
               <h6>AISS</h6>
             </Nav.Link>
 
             <div style={{marginLeft:'3rem' ,display:'flex'}}>
-            <Nav.Link as={Link} to="/Dashboard" className="nav-link">
+            <Nav.Link as={Link} to="/buyer" className="nav-link">
               <h6>Home</h6>
             </Nav.Link>
-           
-            <NavDropdown title="Management Accounts" id="navbarDropdown">
-              <NavDropdown.Item as={Link} to="/ManageDAWorker">
-                DA-WORKER
+
+            <Nav.Link as={Link} to="/buyer" className="nav-link">
+              <h6>Newsfeeds</h6>
+            </Nav.Link>
+            <Nav.Link as={Link} to="/message" className="nav-link">
+              market-information
+            </Nav.Link>
+{/*             
+            <NavDropdown title="Newsfeeds" id="navbarDropdown">
+              <NavDropdown.Item as={Link} to="/crop">
+                Crop Information
               </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/ManageFarmers">
-                Farmer
+              <NavDropdown.Item as={Link} to="/tech">
+                Agri-technology
               </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/ManageICWorker">
-                IC
+              <NavDropdown.Item as={Link} to="/policy">
+                Gov't policy
               </NavDropdown.Item>
-            </NavDropdown>
+              <NavDropdown.Item as={Link} to="/weather">
+                Seasonal weather information
+              </NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/market">
+                Market information
+              </NavDropdown.Item>
+            </NavDropdown> */}
+            <Nav.Link as={Link} to="/message" className="nav-link">
+              Message
+            </Nav.Link>
+            
             </div>
           </Nav>
           <Nav>
@@ -97,4 +114,4 @@ const AdminNavBar = () => {
   );
 };
 
-export default AdminNavBar;
+export default IcNavBar;

@@ -25,7 +25,6 @@ import AdminNavBar from '../admin/adminNavBar';
 const UserProfile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const {userData,setUserData} = useState("")
   const [Image, setImage] = useState(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');

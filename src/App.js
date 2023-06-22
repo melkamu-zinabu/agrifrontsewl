@@ -2,11 +2,9 @@ import React from 'react';
 import './App.css';
 import { ToastContainer } from 'react-toastify';
 import Layout from './components/layout/Layout';
-import Job from './components/product/JobManager';
-import Product from './components/product/ProductManager';
 import Index from './components/landingPage/Index';
 import Login from './components/auserauth/Login';
-import NewsFeed from './components/NewsFeed';
+import NewsFeed from './components/farmer/FNewsFeed';
 import Register from './components/auserauth/Register';
 import RequiredAuth from './components/RequiredAuth';
 import { Routes, Route } from 'react-router-dom';
@@ -21,6 +19,17 @@ import ChangePasswordForm from './components/auserauth/forgetpassword/Resetpassw
 import NavBar from './components/NavBar';
 import AdminNavBar from './components/admin/adminNavBar';
 import ManageFarmers from './components/admin/ManageFarmer';
+import ManageDAWorker from './components/admin/ManageDAWorker';
+import ManageICWorker from './components/admin/ManageIC';
+import Dashboard from './components/admin/adminHome';
+import IcNavBar from './components/IC/icNavBar';
+import Newsfeed from './components/IC/Newsfeed';
+import Home from './components/farmer/FarmerHome';
+import Product from './components/farmer/product/ProductManager';
+import Job from './components/farmer/product/JobManager';
+import FNewsFeed from './components/farmer/FNewsFeed';
+import Buyerproduct from './components/buyer/Buyerproduct';
+
 
 
 
@@ -44,6 +53,36 @@ function App()
            <Route path='adminNavBar' element={<AdminNavBar />} />
           <Route path='updateprofile' element={<UserProfile />} />
           <Route path='ManageFarmers' element={<ManageFarmers />} />
+          <Route path='ManageDAWorker' element={<ManageDAWorker />} />
+          <Route path='ManageICWorker' element={<ManageICWorker />} />
+          <Route path='Dashboard' element={<Dashboard />} />
+          <Route path='IcNavBar' element={<IcNavBar />} />
+          
+
+          <Route path='Newsfeed' element={<Newsfeed />} />
+          {/* <Route path='tech' element={<Newsfeed catagory={Technology} />} />
+          <Route path='policy' element={<Newsfeed catagory={Policy} />} />
+          <Route path='weather' element={<Newsfeed catagory={Weather} />} />
+          <Route path='market' element={<Newsfeed catagory={Market} />} />
+           */}
+
+          <Route path='Home' element={<Home />} />
+          <Route path='farmer/agri-pros' element={<Product/>} />
+          <Route path='farmer/agri-jobs' element={<Job/>} />
+          <Route path='/farmer/news-feed' element={<FNewsFeed/>} />
+
+          <Route path='Buyerproduct' element={<Buyerproduct/>} />
+          
+
+          
+          
+         
+
+
+
+
+          
+          
 
           <Route path='resetpw' element={<ResetPassword />} />
           <Route path='ResetPasswordPage/:token' element={<ChangePasswordForm />} />
