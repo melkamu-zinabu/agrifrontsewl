@@ -123,11 +123,14 @@ function ManageDAWorker() {
         setImage(null);
 
         setTimeout(() => {
+          setSuccess(false)
           setLoading(false); // Set loading state to false after a delay
-          navigate('/ManageDAWorker');
         }, 1500);
       }
     } catch (error) {
+      setTimeout(() => {
+       setError(''); // Set loading state to false after a delay
+      }, 1500);
       setSuccess(false);
       setLoading(false); // Set loading state to false
       if (error.response) {

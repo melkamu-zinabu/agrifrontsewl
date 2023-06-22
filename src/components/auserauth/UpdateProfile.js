@@ -79,7 +79,7 @@ const UserProfile = () => {
         setTimeout(() => {
           setLoading(false); // Set loading state to false after a delay
           dispatch(logout());
-          localStorage.removeItem('user');
+          sessionStorage.removeItem('user');
           navigate('/sign-in');
         }, 1500);
       }

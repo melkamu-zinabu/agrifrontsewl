@@ -32,36 +32,37 @@ const Team = () =>
 
     return (
         // section-padding
-        <section className="team " id="team">
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-12">
-                        <div className="section-header text-center pb-5">
-                            <h2>Our Team</h2>
-                            <p>All of our developers are 4<sup>th</sup> year computer science students</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    {teamMembers.map((member, index) => (
-                        <div className="col-12 col-md-6 col-lg-3" key={index}>
-                            <div className="card text-center">
-                                <div className="card-body">
-                                    <img src={member.img} alt="" className="img-fluid rounded-circle" />
-                                    <h3 className="card-title py-2">{member.name}</h3>
-                                    <p className="card-text">{member.text}</p>
-                                    <p className="socials">
-                                        {member.socials.map((social, socIndex) => (
-                                            <i key={socIndex} className={social}></i>
-                                        ))}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+        
+    <section className="team" id="team">
+    <div className="container  border-bottom pb-4 border-top pt-4">
+      <div className="row">
+        <div className="col-md-12">
+          <div className="section-header text-center pb-5">
+            <h2>Our Team</h2>
+            <p>All of our developers are 4<sup>th</sup> year computer science students</p>
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        {teamMembers.map((member, index) => (
+          <div className="col-12 col-md-6 col-lg-3 zoom-out" key={index}>
+            <div className="card text-center bg-light">
+              <div className="card-body">
+                <img src={member.img} alt="" className="img-fluid rounded-circle" />
+                <h3 className="card-title py-2">{member.name}</h3>
+                <p className="card-text">{member.text}</p>
+                <p className="socials">
+                  {member.socials.map((social, socIndex) => (
+                    <i key={socIndex} className={social}></i>
+                  ))}
+                </p>
+              </div>
             </div>
-        </section>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
     );
 };
 

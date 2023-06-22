@@ -12,7 +12,6 @@ import { login } from './store';
 const theme = createTheme();
 
 const Login = () => {
-  const user = useSelector((state) => state.user);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
@@ -53,26 +52,31 @@ const Login = () => {
         setPassword('')
         setEmail('')
         setRememberMe('')
-      
+        setTimeout(() => {
+          setError('');
+          setSuccess(false)
+          setLoading(false); // Set loading state to false after a delay
+          switch (userData.role) {
+            case 'Admin':
+              navigate('/Dashboard');
+              break;
+            case 'Farmer':
+              navigate('/Home');
+              break;
+            case 'IC':
+              navigate('/ichome');
+              break;
+            case 'DA':
+              navigate('/dahome');
+              break;
+            default:
+              // Handle default case or redirect to a common route
+              navigate('/default');
+              break;
+          }
+        }, 1500);
             // Perform redirection based on user role
-    switch (userData.role) {
-      case 'Admin':
-        navigate('/Dashboard');
-        break;
-      case 'Farmer':
-        navigate('/farmhome');
-        break;
-      case 'IC':
-        navigate('/ichome');
-        break;
-      case 'DA':
-        navigate('/dahome');
-        break;
-      default:
-        // Handle default case or redirect to a common route
-        navigate('/default');
-        break;
-    }
+   
       
       } else {
         const errorData = response.data;

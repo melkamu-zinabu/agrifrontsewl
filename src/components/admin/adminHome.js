@@ -3,7 +3,7 @@ import axios from 'axios';
 import AdminNavBar from './adminNavBar';
 import { Paper } from '@mui/material';
 import Footer from '../landingPage/copyright';
-
+import '../landingPage/style.css'
 function Dashboard() {
   const [counta, setCounta] = useState(0);
   const [countb, setCountb] = useState(0);
@@ -69,15 +69,15 @@ function Dashboard() {
         <div>
           <h1>Dashboard</h1>
           <div>
-            <div style={cardStyle}>
+            <div className='zoom-out' style={cardStyle}>
               <h2>Farmers</h2>
               <p>{counta}</p>
             </div>
-            <div style={cardStyle}>
+            <div className='zoom-out'  style={cardStyle}>
               <h2>DA</h2>
               <p>{countb}</p>
             </div>
-            <div style={cardStyle}>
+            <div className='zoom-out'  style={cardStyle}>
               <h2>ICs</h2>
               <p>{countc}</p>
             </div>

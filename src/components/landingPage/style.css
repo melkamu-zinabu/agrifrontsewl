@@ -130,3 +130,14 @@ body {
 		margin-bottom: 30px;
 	}
 }
+
+
+
+.zoom-out {
+	transition: transform 0.3s ease-in-out;
+  }
+  
+  .zoom-out:hover {
+	transform: scale(0.9);
+  }
+  

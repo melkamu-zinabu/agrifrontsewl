@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../auserauth/store';
 import axios from 'axios';
-import { useState } from 'react';
 
 const AdminNavBar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
+  console.log(user.role);
 
   const [profileImage, setProfileImage] = useState(null);
+
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
@@ -41,26 +42,23 @@ const AdminNavBar = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('user');
     navigate('/sign-in');
   };
 
   return (
     <Navbar collapseOnSelect expand="lg" bg="light" variant="light" fixed="top">
       <div className="container">
+        <Navbar.Brand as={Link} to="/Dashboard">
+          <h6>AISS</h6>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="me-auto" >
-            <Nav.Link as={Link} to="/Dashboard" className="nav-link">
-              <h6>AISS</h6>
-            </Nav.Link>
-
-            <div style={{marginLeft:'3rem' ,display:'flex'}}>
-            <Nav.Link as={Link} to="/Dashboard" className="nav-link">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/Dashboard">
               <h6>Home</h6>
             </Nav.Link>
-           
-            <NavDropdown title="Management Accounts" id="navbarDropdown">
+            <NavDropdown title="Manage-Accounts" id="navbarDropdown">
               <NavDropdown.Item as={Link} to="/ManageDAWorker">
                 DA-WORKER
               </NavDropdown.Item>
@@ -71,7 +69,6 @@ const AdminNavBar = () => {
                 IC
               </NavDropdown.Item>
             </NavDropdown>
-            </div>
           </Nav>
           <Nav>
             <NavDropdown
@@ -86,13 +83,6 @@ const AdminNavBar = () => {
           </Nav>
         </Navbar.Collapse>
       </div>
-
-      {/* Custom CSS for spacing between AISS and Home */}
-      <style jsx>{`
-        .nav-link.aiss-link {
-          margin-right: 20px;
-        }
-      `}</style>
     </Navbar>
   );
 };

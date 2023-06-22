@@ -42,7 +42,7 @@ function ChangePasswordForm() {
         setResetStatus(response.data.message);
 
         dispatch(logout());
-        localStorage.removeItem('user');
+        sessionStorage.removeItem('user');
         setTimeout(() => {
           setLoading(false); // Set loading state to false
           navigate('/sign-in');

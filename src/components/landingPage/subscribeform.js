@@ -5,6 +5,7 @@ import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 const SubscribeForm = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
+  const[msg,setmsg]=useState('')
   const handleSubmit = (e) => {
     e.preventDefault();
     // Perform any validation or submit logic here
@@ -13,9 +14,18 @@ const SubscribeForm = () => {
       .post('http://localhost:3005/contact/addphone', { phoneNumber })
       .then((response) => {
         console.log('Phone number saved successfully');
+        setmsg(`Phone saved`)
+        setTimeout(() => {
+          setmsg('')
+        }, 1500);
+      
       })
       .catch((error) => {
         console.error('Error saving phone number:', error);
+        setmsg('unable to add')
+        setTimeout(() => {
+          setmsg('')
+        }, 1500);
       });
 
     // Reset the form
@@ -42,7 +52,7 @@ const SubscribeForm = () => {
   </label>
   <br />
   <button type="submit" className="btn btn-primary mt-3">Submit</button>
-   
+   {msg}
         </div>
       </form>
 

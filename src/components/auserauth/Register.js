@@ -19,6 +19,7 @@ import Footer from '../landingPage/copyright';
 import axios from 'axios';
 import { login } from './store';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 const theme = createTheme();
 
 const Register = () => {
@@ -72,12 +73,13 @@ const Register = () => {
         setRole('');
         setImage(null);
          dispatch(login(userData));
-       
         sessionStorage.setItem('user', JSON.stringify(userData));
 
         setTimeout(() => {
+          setError('');
+          setSuccess(false)
           setLoading(false); // Set loading state to false after a delay
-          navigate('/sign-in');
+         navigate('/sign-in');
         }, 1500);
       }
     } catch (error) {
@@ -103,6 +105,7 @@ const Register = () => {
                 Register
               </Typography>
               <form onSubmit={handleSubmit}>
+           
                 {success && <p>User registered successfully.</p>}
                 {error && <p>{error}</p>}
 

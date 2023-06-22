@@ -1,11 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Paper } from '@mui/material';
 import './nav.css';
 import { NavDropdown } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
 const NavBar = () =>
 {
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
+    const navigate = useNavigate();
+    console.log("farmer"+user.role)
     return (
         <Paper className="text-primary navMain1">
             <nav className="navbar navbar-expand-lg navbar-light m-2 " style={{ backgroundColor: 'white' }}>

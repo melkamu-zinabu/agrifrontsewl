@@ -29,6 +29,7 @@ import Product from './components/farmer/product/ProductManager';
 import Job from './components/farmer/product/JobManager';
 import FNewsFeed from './components/farmer/FNewsFeed';
 import Buyerproduct from './components/buyer/Buyerproduct';
+import ImageWithOverlay from './components/farmer/FarmerCarousel';
 
 
 
@@ -41,17 +42,18 @@ function App()
     <div className="App" >
       <ToastContainer theme='colored' position='top-center'></ToastContainer>
       <Routes>
+      {/* //always acessible */}
         <Route path="/" element={<Layout />}>
+          {/* authentication */}
+
         <Route path='sign-up' element={<Register />} />
         <Route path='sign-in' element={<Login />} />
         <Route path='/SubmitEmail' element={<SubmitEmail />} />
         <Route path='ResetPasswordPage/:token' element={<ChangePasswordForm />} />
-          {/* Public routes */}
-           {/* <Home /> : <Navigate to="/login" />
-          <Route path='sign-in' element={<Login />} /> */}
-           
-           <Route path='adminNavBar' element={<AdminNavBar />} />
+        
+         <Route path='adminNavBar' element={<AdminNavBar />} />
           <Route path='updateprofile' element={<UserProfile />} />
+          {/* //admin */}
           <Route path='ManageFarmers' element={<ManageFarmers />} />
           <Route path='ManageDAWorker' element={<ManageDAWorker />} />
           <Route path='ManageICWorker' element={<ManageICWorker />} />
@@ -83,7 +85,8 @@ function App()
 
           
           
-
+          
+          <Route path='ImageWithOverlay' element={<ImageWithOverlay />} />
           <Route path='resetpw' element={<ResetPassword />} />
           <Route path='ResetPasswordPage/:token' element={<ChangePasswordForm />} />
           <Route path='news-feed' element={<NewsFeed />} />

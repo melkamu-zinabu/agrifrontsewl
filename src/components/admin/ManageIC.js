@@ -124,10 +124,13 @@ function ManageICWorker() {
 
         setTimeout(() => {
           setLoading(false); // Set loading state to false after a delay
-          navigate('/ManageICWorker');
+          setSuccess(false)
         }, 1500);
       }
     } catch (error) {
+      setTimeout(() => {
+        setError('')
+      }, 1500);
       setSuccess(false);
       setLoading(false); // Set loading state to false
       if (error.response) {
