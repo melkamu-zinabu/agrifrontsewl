@@ -34,6 +34,7 @@ function ManageICWorker() {
 
   const fetchData = async (page) => {
     try {
+      setLoading(true)
       const response = await axios.get(`http://localhost:3005/user/getallusers?page=${page}&limit=10&role=${roles}`);
       const { data, count } = response.data;
       setProfileData(data);
@@ -45,6 +46,7 @@ function ManageICWorker() {
     } catch (error) {
       console.error('Error:', error);
     }
+    setLoading(false)
   };
 
   const handleDelete = (id) => {
@@ -167,7 +169,7 @@ function ManageICWorker() {
                     Select Role
                   </MenuItem>
                   <MenuItem value="IC">IC</MenuItem>
-                  <MenuItem value="DA Worker">DA Worker</MenuItem>
+                  <MenuItem value="DA">DA Worker</MenuItem>
                 </Select>
             </div>
             <div className="row" style={{ margin: '1rem' }}>
@@ -278,7 +280,15 @@ function ManageICWorker() {
               style={{ borderRadius: '5px', padding: '5px' }}
             />
           </div>
-          <div style={{ overflowX: 'auto' }}>
+
+          {loading && (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
+            <CircularProgress />
+          </div>
+        )}
+          {!loading && (
+          <>
+           <div style={{ overflowX: 'auto' }}>
             <table style={tableStyle}>
               <thead>
                 <tr>
@@ -333,6 +343,8 @@ function ManageICWorker() {
               <FaArrowRight />
             </button>
           </div>
+          </>)}
+         
         </div>
      
       </div>

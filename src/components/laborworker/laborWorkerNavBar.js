@@ -86,7 +86,7 @@ const LaborWorkerNavBar = () => {
               title={<img src={profileImage} alt="Profile" width="38px" height="38px" style={{ padding: 0 }} />}
               id="navbarDropdown"
             >
-              <NavDropdown.Item as={Link} to="/updateprofile">
+              <NavDropdown.Item as={Link} to="/UpdateLaborProfile">
                 Update Profile
               </NavDropdown.Item>
               <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>

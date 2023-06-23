@@ -11,6 +11,7 @@ function ManageDAWorker() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [name, setname] = useState('');
+  
   const [email, setemail] = useState('');
   const [chatlink, setchatlink] = useState('');
   const [phone, setphone] = useState('');
@@ -33,6 +34,7 @@ function ManageDAWorker() {
   }, [currentPage]);
 
   const fetchData = async (page) => {
+    setLoading(true);
     try {
       const response = await axios.get(`http://localhost:3005/user/getallusers?page=${page}&limit=10&role=${roles}`);
       const { data, count } = response.data;
@@ -45,6 +47,8 @@ function ManageDAWorker() {
     } catch (error) {
       console.error('Error:', error);
     }
+    setLoading(false); // Set loading state to false
+
   };
 
   const handleDelete = (id) => {
@@ -279,7 +283,14 @@ function ManageDAWorker() {
               style={{ borderRadius: '5px', padding: '5px' }}
             />
           </div>
-          <div style={{ overflowX: 'auto' }}>
+          {loading && (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
+            <CircularProgress />
+          </div>
+        )}
+         {!loading && (
+          <>
+              <div style={{ overflowX: 'auto' }}>
             <table style={tableStyle}>
               <thead>
                 <tr>
@@ -334,6 +345,10 @@ function ManageDAWorker() {
               <FaArrowRight />
             </button>
           </div>
+          </>
+
+         )}
+      
         </div>
      
       </div>

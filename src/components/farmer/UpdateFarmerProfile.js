@@ -1,7 +1,7 @@
 import axios from 'axios'
 import '../../App.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from './store';
+import { logout } from '../auserauth/store';
 import React, { useEffect, useState } from 'react';
 import {
   TextField,
@@ -18,11 +18,11 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import CloudUploadOutlinedIcon from '@mui/icons-material/CloudUploadOutlined';
-import NavBar from '../landingPage/NavBar';
 import Footer from '../landingPage/copyright';
-import AdminNavBar from '../admin/adminNavBar';
+import NavBar from './FNavBar';
 
-const UserProfile = () => {
+
+const Farmerprofileupdate = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [Image, setImage] = useState(null);
@@ -98,7 +98,8 @@ const UserProfile = () => {
  
   return (
     <div>
-      <div><AdminNavBar /></div>
+      <div><NavBar
+       /></div>
      
     <ThemeProvider theme={theme}>
       
@@ -210,4 +211,4 @@ const UserProfile = () => {
 
 };
 
-export default UserProfile;
+export default Farmerprofileupdate;

@@ -51,19 +51,19 @@ const IcNavBar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto" >
-            <Nav.Link as={Link} to="/buyer" className="nav-link">
+            <Nav.Link as={Link} to="/Newsfeed" className="nav-link">
               <h6>AISS</h6>
             </Nav.Link>
 
             <div style={{marginLeft:'3rem' ,display:'flex'}}>
-            <Nav.Link as={Link} to="/buyer" className="nav-link">
+            <Nav.Link as={Link} to="/Newsfeed" className="nav-link">
               <h6>Home</h6>
             </Nav.Link>
 
-            <Nav.Link as={Link} to="/buyer" className="nav-link">
+            <Nav.Link as={Link} to="/Newsfeed" className="nav-link">
               <h6>Newsfeeds</h6>
             </Nav.Link>
-            <Nav.Link as={Link} to="/message" className="nav-link">
+            <Nav.Link as={Link} to="/messages" className="nav-link">
               market-information
             </Nav.Link>
 {/*             
@@ -84,7 +84,7 @@ const IcNavBar = () => {
                 Market information
               </NavDropdown.Item>
             </NavDropdown> */}
-            <Nav.Link as={Link} to="/message" className="nav-link">
+            <Nav.Link as={Link} to="/messages" className="nav-link">
               Message
             </Nav.Link>
             
@@ -95,7 +95,7 @@ const IcNavBar = () => {
               title={<img src={profileImage} alt="Profile" width="38px" height="38px" style={{ padding: 0 }} />}
               id="navbarDropdown"
             >
-              <NavDropdown.Item as={Link} to="/updateprofile">
+              <NavDropdown.Item as={Link} to="/UpdateICProfile">
                 Update Profile
               </NavDropdown.Item>
               <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>

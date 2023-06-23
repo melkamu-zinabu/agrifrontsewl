@@ -34,7 +34,7 @@ const SubscribeForm = () => {
   };
   return (
     <div className="subscribe">
-      <h6 className="text-uppercase fw-bold">Subscribe</h6>
+      <h6 className="text-uppercase fw-bold">Subscribe for SMS News</h6>
       <hr className="mb-4 mt-0 d-inline-block mx-auto" style={{ width: "60px", backgroundColor: "#7c4dff", height: "2px" }} />
     
       <form onSubmit={handleSubmit}>

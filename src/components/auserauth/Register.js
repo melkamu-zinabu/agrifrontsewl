@@ -141,7 +141,7 @@ const Register = () => {
                   <MenuItem value="Farmer">Farmer</MenuItem>
                  
                 
-                  <MenuItem value="Labour Worker">Labour Worker</MenuItem>
+                  <MenuItem value="Labour">Labour Worker</MenuItem>
                   <MenuItem value="Buyer">Buyer</MenuItem>
                 </Select>
 

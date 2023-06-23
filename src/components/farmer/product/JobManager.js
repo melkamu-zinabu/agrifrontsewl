@@ -7,7 +7,8 @@ import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-
+import MyFooter from '../../landingPage/myfooter';
+import { format } from 'timeago.js';
 const JobManager = () => {
   const user = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -25,18 +26,21 @@ const JobManager = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const[search,setsearch]=useState('')
+  const [editMode, setEditMode] = useState(false);
+  const[id,setid]=useState('')
+
   const handleAddJob = async (e) => {
     e.preventDefault();
     setLoading(true); // Set loading state to true
-
+    const jobData = {
+      title: title,
+      description: description,
+      company: company,
+      location: location,
+      id: user._id,
+  };
     try {
-        const jobData = {
-            title: title,
-            description: description,
-            company: company,
-            location: location,
-            id: user._id,
-        };
+      if(!editMode){
 
         const response = await axios.post(`http://localhost:3005/jobs/addjobs`, jobData);
 
@@ -50,14 +54,41 @@ const JobManager = () => {
 
         setTimeout(() => {
           setLoading(false); // Set loading state to false after a delay
-          navigate('/sign-in');
+          setSuccess(false);
         }, 1500);
       }
+     
+      }
+      else{
+        console.log('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww')
+        const response = await axios.put(`http://localhost:3005/jobs/updatejobs/${id}`, jobData);
+
+      if (response.status === 200) {
+        setSuccess(true);
+        setError('');
+        setTitle('');
+        setDescription('');
+        setLocation('');
+        setCompany('');
+        setLoading(false);
+        setTimeout(() => {
+          setEditMode(false)
+          setLoading(false); // Set loading state to false after a delay
+          setSuccess(false);
+        }, 1500);
+      }
+      }
+
     } catch (error) {
       setSuccess(false);
-      setLoading(false); // Set loading state to false
+      setLoading(false); 
+      setEditMode(false)// Set loading state to false
 
       if (error.response) {
+        setTimeout(() => {
+          setError('');
+        }, 1500);
+       
         setError(error.response.data.message);
       } else {
         setError('An error occurred during job addition.');
@@ -71,15 +102,17 @@ const JobManager = () => {
 
   const fetchData = async (page) => {
     try {
-        const response = await axios.get(`http://localhost:3005/jobs/getjobsbyuserid?page=${page}&limit=10&id=${user._id}&search=${search}`);
+      setLoading(true)
+        const response = await axios.get(`http://localhost:3005/jobs/getjobsbyuserid?page=${page}&limit=3&id=${user._id}&search=${search}`);
         const { jobs, count } = response.data;
       setProfileData(jobs);
       console.log(count)
       setcount(jobs)
-      setTotalPages(Math.ceil(count / 10));
+      setTotalPages(Math.ceil(count / 3));
     } catch (error) {
       console.error('Error:', error);
     }
+    setLoading(false)
   };
 
   const handleDelete = (id) => {
@@ -92,7 +125,19 @@ const JobManager = () => {
         console.log(error);
       });
   };
+const handleEditJob=(id)=>{
+  const jobitem = profileData.find((item) => item._id === id);
+  console.log('weeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+  setid(jobitem._id);
+  setTitle(jobitem.title);
+  setDescription(jobitem.description);
+  setCompany(jobitem.company)
+  setLocation(jobitem.location)
+  setEditMode(true);
 
+  
+
+}
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -151,19 +196,24 @@ const JobManager = () => {
             </div>
 
             <div style={{ margin: '2rem' }}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                disabled={loading}
-              >
+            <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  disabled={loading}
+                >
                 {loading ? (
-                  <CircularProgress size={24} color="inherit" />
-                ) : (
-                  'Add Job'
-                )}
-              </Button>
+                    <CircularProgress size={24} color="inherit" />
+                  ) : (
+                    <div
+                     
+                    >
+                      {editMode ? 'Update job' : 'Add job'}
+                    </div>
+                  )}
+
+                </Button>
             </div>
             {success && <p>Job added successfully.</p>}
             {error && <p>{error}</p>}
@@ -187,7 +237,14 @@ const JobManager = () => {
           </div>
         </div>
       </div>
-      {profileData.length === 0 ? (<p>No jobs available.</p>) : (                
+      {loading && (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
+            <CircularProgress />
+          </div>
+        )}
+          {!loading && (
+          <>
+              {profileData.length === 0 ? (<p>No jobs available.</p>) : (                
         <div>
         <ul>
             {profileData.map((job) => (
@@ -196,7 +253,8 @@ const JobManager = () => {
                     <span style={{ marginRight: '0.5rem', color: 'red' }}>Company/ Employer: {job.company}</span><br />
                     <span style={{ marginRight: '0.5rem' }}>{job.description}</span><br />
                     <span style={{ backgroundColor: 'whitesmoke' }}> Location: {job.location}</span><br />
-                    <button className='btn btn-warning' style={{ margin: '1rem' }} >Edit</button>
+                    <span style={{ backgroundColor: 'whitesmoke' }}> date: {format(job.date)}</span><br />
+                    <button className='btn btn-warning' style={{ margin: '1rem' }}  onClick={() => handleEditJob(job._id)}>Edit</button>
                     <button className='btn btn-danger' style={{ margin: '1rem' }} onClick={() => handleDelete(job._id)}>
                         Delete
                     </button>
@@ -214,6 +272,8 @@ const JobManager = () => {
             </button>
           </div>
     </div>)}
+          </>)}
+  
 
 
 
@@ -223,7 +283,7 @@ const JobManager = () => {
 
 
       </Paper>
-      <Footer />
+      <MyFooter />
     </div>
   );
 };

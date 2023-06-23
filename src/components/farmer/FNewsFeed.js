@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import NavBar from './FNavBar'
 
-import { Box, Container, MenuItem, Paper, Select, TextField } from '@mui/material';
+import { Box, CircularProgress, Container, MenuItem, Paper, Select, TextField } from '@mui/material';
 import img1 from './assets/teff.jpg'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -9,9 +9,9 @@ import { useSelector } from 'react-redux';
 import Footer from '../landingPage/copyright';
 import MyFooter from '../landingPage/myfooter';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-
+import { format } from 'timeago.js';
 const FNewsFeed = () =>
-{
+{    const [isLoading, setIsLoading] = useState(false);
     const [newsfeed, setNewsfeed] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filterByTitle, setFilterByTitle] = useState('');
@@ -24,7 +24,6 @@ const FNewsFeed = () =>
    const [currentPage, setCurrentPage] = useState(1);
    const navigate=useNavigate()
    const [showFullText, setShowFullText] = useState(false);
-
    const toggleText = () => {
      setShowFullText(!showFullText);
    };
@@ -32,13 +31,16 @@ const FNewsFeed = () =>
    useEffect(() => {
      const fetchData = async () => {
        try {
+        setIsLoading(true)
          const response = await axios.get(`http://localhost:3005/news/getnews?page=${currentPage}&limit=3&search=${search}&filter=${filter}`);
          const { data, count } = response.data;
          setNewsfeed(data);
+      
          setTotalPages(Math.ceil(count / 3));
        } catch (error) {
          console.error('Error:', error);
        }
+       setIsLoading(false)
      };
    
      fetchData();
@@ -105,12 +107,12 @@ const FNewsFeed = () =>
                 <NavBar />
             </div>
             <Paper sx={{
-                position: 'fixed', top: '3rem', zIndex: 1,
+                marginTop: '5rem', zIndex: 1,
                 backgroundColor: 'white', padding: '1rem', width: '100%',
                 display: { xs: 'block', md: 'flex' }
             }}>
 
-<div style={{ display: 'flex', alignItems: 'center' }}>
+         <div style={{ display: 'flex', alignItems: 'center' }}>
             {/* Search Input */}
             <Box marginLeft="4rem">
                 <TextField
@@ -132,6 +134,7 @@ const FNewsFeed = () =>
                 size="small"
                 label="Filter by Category"
                 >
+                    <MenuItem value="">All</MenuItem>
                     <MenuItem value="crop">Crop</MenuItem>
                 <MenuItem value="tech">Technology</MenuItem>
                 <MenuItem value="weather">Weather</MenuItem>
@@ -149,15 +152,23 @@ const FNewsFeed = () =>
             <div style={{ minHeight: '32rem' }}>
                 
                 <Paper sx={{ backgroundColor: 'whitesmoke', display: { xs: 'block', md: 'flex' } }}>
-                    <Container sx={{ backgroundColor: 'whitesmoke', marginTop: { xs: '3rem', md: '10rem' }, width: '100%' }}>
-                        <h3 style={{ margin: '3px' }}>NewsFeed</h3>
+                    <Container sx={{ backgroundColor: 'whitesmoke', width: '100%' }}>
+                        <h3 >NewsFeed</h3>
            
-            {newsfeed.map(item => (
+             
+      {isLoading && (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
+            <CircularProgress />
+          </div>
+        )}
+          {!isLoading && (
+          <>     {newsfeed.map(item => (
             <Paper sx={{ minWidth: { xs: '60px' }, margin: 'auto 1.0rem' }} elevation={0.4} key={item.id}
             >
                 <div>
                     Title:{item.title}
                     <span style={{ marginLeft: '30%' }}>Category:{item.category}</span>
+                    <span style={{ marginLeft: '30%' }}>date:{format(item.date)}</span>
                 </div>
                 <div className='textCenter'>
                     <Paper sx={{ display: { sx: 'block', sm: 'flex' }, marginBottom: '1rem' }}>
@@ -195,7 +206,8 @@ const FNewsFeed = () =>
             <button disabled={currentPage === totalPages} onClick={handleNextPage} style={{ marginLeft: '10px' }}>
               <FaArrowRight />
             </button>
-          </div>
+          </div></>)}
+       
 {/*                        
                         <button className='btn btn-primary mb-3' onClick={handleExpand}>
                             {expanded ? 'Show Less...' : 'Show More...'}

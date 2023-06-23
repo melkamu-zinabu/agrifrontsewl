@@ -8,6 +8,10 @@ import CardLayout from './CardLayout';
 import img1 from './assets/corn.jpg'
 import newsfeed from './assets/newsfeed.jpg'
 import MyFooter from '../landingPage/myfooter';
+import Carousel from '../landingPage/Carousel';
+import FarmerCarousel from './FarmerCarousel';
+import ImageWithOverlay from './FarmerCarousel';
+import QA from './QA';
 
 const Home = () =>
 {
@@ -15,13 +19,13 @@ const Home = () =>
     return (
         <>
             <NavBar />
+            
             <div className="home-page">
-
+           
                 <Paper style={{ marginBottom: '2rem' }}>
+                
                     <div>
-                        <h1>
-                            Welcome to the Agricultural Information Sharing System
-                        </h1>
+                    <ImageWithOverlay/>
                     </div>
 
                 </Paper>
@@ -45,6 +49,7 @@ const Home = () =>
                         <Container className="feature" sx={{ marginBottom: '2rem', marginTop: '3rem', backgroundColor: 'whitesmoke' }}>
                             <h3>Expert Advice</h3>
                             <p>Access expert advice and guidance on various farming topics.</p>
+                            <QA/>
                         </Container>
                         <Container className="feature" sx={{ backgroundColor: 'whitesmoke' }}>
                             <h3>Marketplace</h3>

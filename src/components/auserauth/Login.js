@@ -57,22 +57,28 @@ const Login = () => {
           setSuccess(false)
           setLoading(false); // Set loading state to false after a delay
           switch (userData.role) {
-            case 'Admin':
-              navigate('/Dashboard');
-              break;
-            case 'Farmer':
-              navigate('/Home');
-              break;
-            case 'IC':
-              navigate('/ichome');
-              break;
-            case 'DA':
-              navigate('/dahome');
-              break;
-            default:
-              // Handle default case or redirect to a common route
-              navigate('/default');
-              break;
+              case 'Admin':
+                navigate('/Dashboard');
+                break;
+              case 'Farmer':
+                navigate('/Home');
+                break;
+              case 'IC':
+                navigate('/Newsfeed');
+                break;
+              case 'Labour':
+                navigate('/LaborWorkerHome');
+                break;
+                case 'Buyer':
+                  navigate('/BuyerHome');
+                    break;
+              case 'DA':
+                navigate('/');
+                break;
+              default:
+                // Handle default case or redirect to a common route
+                navigate('/');
+                break;
           }
         }, 1500);
             // Perform redirection based on user role

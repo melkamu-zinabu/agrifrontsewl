@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../../landingPage/copyright';
 import NavBar from '../FNavBar';
 import { useSelector } from 'react-redux';
+import Newsfeed from '../../IC/Newsfeed';
+import { format } from 'timeago.js';
 function ProductManagement() {
     const user = useSelector((state) => state.user);
     const [price, setPrice] = useState('');
@@ -24,22 +26,25 @@ function ProductManagement() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [fetching, setfetching] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const[id,setid]=useState('')
   const navigate=useNavigate()
 
   const handleAddProduct = async (e) => {
       e.preventDefault();
       setLoading(true); // Set loading state to true
-  
+      const formData = new FormData();
+      formData.append('name', name);
+      formData.append('quantity', quantity);
+      formData.append('category', category);
+      formData.append('price', price);
+      formData.append('description', description);
+      formData.append('image', image);
+      formData.append('id', user._id); // Include file in form data
       try {
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('quantity', quantity);
-        formData.append('category', category);
-        formData.append('price', price);
-        formData.append('description', description);
-        formData.append('image', image);
-        formData.append('id', user._id); // Include file in form data
-  
+      if(!editMode){
+
         const response = await axios.post('http://localhost:3005/product/addproduct', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -57,11 +62,41 @@ function ProductManagement() {
   
           setTimeout(() => {
             setLoading(false); // Set loading state to false after a delay
-            navigate('/sign-in');
+            setSuccess(false);
           }, 1500);
         }
+      }
+      else{
+
+        const response = await axios.put(`http://localhost:3005/product/updateproduct/${id}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        if (response.status === 200) {
+          setSuccess(true);
+          setError('');
+          setName('');
+          setDescription('');
+          setQuantity('');
+          setPrice('');
+          setImage(null);
+          setCategory('')
+          setLoading(false);
+          setTimeout(() => {
+            setLoading(false); // Set loading state to false after a delay
+            setSuccess(false);
+            setEditMode(false)
+          }, 1500);
+        }
+      }
+  
       } catch (error) {
+        setTimeout(() => {
+          setError('');
+        }, 1500);
         setSuccess(false);
+        editMode(false)
         setLoading(false); // Set loading state to false
   
         if (error.response) {
@@ -78,6 +113,7 @@ function ProductManagement() {
     
     const fetchData = async (page) => {
         try {
+          setfetching(true)
           const response = await axios.get(`http://localhost:3005/product/getproductbyuserid?page=${page}&limit=3&id=${user._id}&search=${search}`);
           const { data, count } = response.data;
           setProfileData(data);
@@ -85,6 +121,7 @@ function ProductManagement() {
         } catch (error) {
           console.error('Error:', error);
         }
+        setfetching(false)
       };
     
       const handleDelete = (id) => {
@@ -97,7 +134,18 @@ function ProductManagement() {
             console.log(error);
           });
       };
-    
+    const handleEditProduct=(id)=>{
+      const productitem = profileData.find((item) => item._id === id);
+      setid(productitem._id);
+      setName(productitem.name);
+      setDescription(productitem.description);
+      setCategory(productitem.category)
+      setPrice(productitem.price)
+      setQuantity(productitem.quantity)
+      setImage(productitem.image);
+      setEditMode(true);
+      
+    }
       const handlePreviousPage = () => {
         if (currentPage > 1) {
           setCurrentPage(currentPage - 1);
@@ -192,11 +240,16 @@ function ProductManagement() {
                   fullWidth
                   disabled={loading}
                 >
-                  {loading ? (
+                {loading ? (
                     <CircularProgress size={24} color="inherit" />
                   ) : (
-                    'Add product'
+                    <div
+                     
+                    >
+                      {editMode ? 'Update product' : 'Add product'}
+                    </div>
                   )}
+
                 </Button>
                 {success && <p>User registered successfully.</p>}
                 {error && <p>{error}</p>}
@@ -224,9 +277,14 @@ function ProductManagement() {
         </div>
       </div>
       
-     
-                           
-      {profileData.length === 0 ? (<p>No product available.</p>) : (                
+      {fetching && (
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
+            <CircularProgress />
+          </div>
+        )}
+          {!loading && (
+          <>
+             {profileData.length === 0 ? (<p>No product available.</p>) : (                
         <div>
          <ul>
                                 {profileData.map((product) => (
@@ -247,10 +305,12 @@ function ProductManagement() {
                                                 <br />
                                                 <span style={{ marginRight: '1.0rem', color: 'green' }}>Product Category: {product.category}</span>
                                                 <span style={{ backgroundColor: 'whitesmoke' }}> Price: ETB{product.price}</span>
+                                                <br/>
+                                                <span style={{ backgroundColor: 'whitesmoke' }}> date:{format(product.date)}</span>
                                             </div>
                                         </span>
                                         <br />
-                                        <button className='btn btn-warning' style={{ margin: '1rem' }} onClick={() => 'handleEditProduct(product._id)'}>Edit</button>
+                                        <button className='btn btn-warning' style={{ margin: '1rem' }} onClick={() => handleEditProduct(product._id)}>Edit</button>
                                         <button className='btn btn-danger' style={{ margin: '1rem' }} onClick={() => handleDelete(product._id)}>
                                             Delete
                                         </button>
@@ -268,6 +328,9 @@ function ProductManagement() {
             </button>
           </div>
     </div>)} 
+          </>)}
+                           
+   
 
       </Paper>
 
